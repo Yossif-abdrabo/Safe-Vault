@@ -1,0 +1,133 @@
+### SafeVault API and Web Routes
+### Base URL for local testing: http://localhost:5000 or https://localhost:5001
+
+### ==============================================================================
+### AUTHENTICATION API ROUTES (JWT)
+### ==============================================================================
+
+### Register new user via API
+POST http://localhost:5123/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "testuser@example.com",
+  "password": "TestPassword123"
+}
+
+###
+
+### Login to get JWT token
+POST http://localhost:5123/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "testuser@example.com",
+  "password": "TestPassword123"
+}
+
+###
+
+### Validate JWT token (requires Authorization header)
+GET http://localhost:5123/api/auth/validate
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjNmMzdmYjQ2LWFhNDItNDRmMS04NTQ1LTZlMzNmYTA0NmNkMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJ0ZXN0dXNlckBleGFtcGxlLmNvbSIsIm9pZCI6IjNmMzdmYjQ2LWFhNDItNDRmMS04NTQ1LTZlMzNmYTA0NmNkMiIsImV4cCI6MTc3MTY5NzEwMywiaXNzIjoiU2FmZVZhdWx0IiwiYXVkIjoiU2FmZVZhdWx0VXNlcnMifQ.On1jiEASAvS_mgbtn7SHFDkzjeM72OAp6qtJg3rdFzU
+
+###
+
+### Get current user info (requires valid JWT token)
+GET http://localhost:5123/api/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjNmMzdmYjQ2LWFhNDItNDRmMS04NTQ1LTZlMzNmYTA0NmNkMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJ0ZXN0dXNlckBleGFtcGxlLmNvbSIsIm9pZCI6IjNmMzdmYjQ2LWFhNDItNDRmMS04NTQ1LTZlMzNmYTA0NmNkMiIsImV4cCI6MTc3MTY5NzEwMywiaXNzIjoiU2FmZVZhdWx0IiwiYXVkIjoiU2FmZVZhdWx0VXNlcnMifQ.On1jiEASAvS_mgbtn7SHFDkzjeM72OAp6qtJg3rdFzU
+
+###
+
+### ==============================================================================
+### WEB FORM AUTHENTICATION (Cookie-based)
+### ==============================================================================
+
+### GET Login page
+GET http://localhost:5123/Identity/Account/Login
+
+###
+
+### POST Login form (creates session cookie)
+POST http://localhost:5123/Identity/Account/Login
+Content-Type: application/x-www-form-urlencoded
+
+__RequestVerificationToken=CfDJ8Imrh5Ul_XBBuk_oRVlmAbxlgEgX3KeH4IsszGV5nZw1CRPJ_JJjKj3zKUbdWzJ-ogoDgS3D2I1lCTF4nUmZKefOeVBLIXTqnsJjR8zULWL9vW_HsNY-NCX2nkCyGqdPpJ6PYVj6A5EeJKvsYAiq-UKTRRJx75zT6ivnwLQwwc3fSWgND8mbTeBERgLIE5QZEg&Input.Email=testuser@example.com&Input.Password=TestPassword123&Input.RememberMe=false
+
+###
+
+### GET Register page
+GET http://localhost:5123/Identity/Account/Register
+
+###
+
+### POST Register form (creates new user and session cookie)
+POST http://localhost:5123/Identity/Account/Register
+Content-Type: application/x-www-form-urlencoded
+
+__RequestVerificationToken=CfDJ8Imrh5Ul_XBBuk_oRVlmAbwiGL2Sievf-t_rn8xa6MyaT-iDsddM_KMkdXSmeXzbc_iv6CXLtVdHsDvjvkDt3GBXEyxH4ZvrzUJGydnArSdHxd0aPe-3_ZMGNJsRQMEP25C7ZlrILyzvSeH_EpSMvs4&Input.Email=newuser@example.com&Input.Password=NewPassword123&Input.ConfirmPassword=NewPassword123
+
+###
+
+### GET Logout
+GET  http://localhost:5123/Identity/Account/Logout
+Content-Type: application/x-www-form-urlencoded
+
+###
+
+GET http://localhost:5123/Identity/Account/AccessDenied?ReturnUrl=%2F
+
+### ==============================================================================
+### WEB APPLICATION ROUTES
+### ==============================================================================
+
+### GET Home page (requires authentication)
+GET http://localhost:5123/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjNmMzdmYjQ2LWFhNDItNDRmMS04NTQ1LTZlMzNmYTA0NmNkMiIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJ0ZXN0dXNlckBleGFtcGxlLmNvbSIsIm9pZCI6IjNmMzdmYjQ2LWFhNDItNDRmMS04NTQ1LTZlMzNmYTA0NmNkMiIsImV4cCI6MTc3MTY5NzEwMywiaXNzIjoiU2FmZVZhdWx0IiwiYXVkIjoiU2FmZVZhdWx0VXNlcnMifQ.On1jiEASAvS_mgbtn7SHFDkzjeM72OAp6qtJg3rdFzU
+
+###
+
+### GET Privacy page
+GET http://localhost:5123/Privacy
+
+###
+
+### ==============================================================================
+### USEFUL TEST DATA
+### ==============================================================================
+
+### Pre-seeded users (from Program.cs):
+### Email: alice@example.com
+### Password: password123
+###
+### Email: bob@example.com
+### Password: qwerty
+
+###
+### JWT Token response example:
+### {
+###   "success": true,
+###   "message": "Login successful",
+###   "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+###   "refreshToken": "base64EncodedRefreshToken",
+###   "expiresAt": "2026-02-21T22:30:00Z"
+### }
+###
+
+### ==============================================================================
+### WORKFLOW EXAMPLES
+### ==============================================================================
+
+### Example 1: Complete API Authentication Flow
+### 1. Register: POST /api/auth/register
+### 2. Get token from response
+### 3. Use token in subsequent requests: Authorization: Bearer {token}
+### 4. Validate token: GET /api/auth/validate
+### 5. Get user info: GET /api/auth/me
+
+### Example 2: Web Form Authentication Flow
+### 1. GET /Identity/Account/Register
+### 2. POST /Identity/Account/Register (creates user)
+### 3. Automatically logged in, cookie stored
+### 4. Can now access protected pages
+### 5. POST /Identity/Account/Logout to clear session
